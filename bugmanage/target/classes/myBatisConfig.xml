@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.qcit.model.User" alias="user" />
+		<typeAlias type="com.qcit.model.ItemsListVo" alias="itemslistvo" />
+		<typeAlias type="com.qcit.model.ItemsPo" alias="itemspo" />
+		<typeAlias type="com.qcit.model.UserLoginSimple" alias="userloginsimple" />
+		<typeAlias type="com.qcit.model.ProblemCount" alias="problemcount" />
+		<typeAlias type="com.qcit.model.ProjectVo" alias="projectVo" />
+		<typeAlias type="com.qcit.model.SimpleProblemVo" alias="simpleProblemVo" />
+		<typeAlias type="com.qcit.model.JoinMumber" alias="joinmumber"></typeAlias>
+		<typeAlias type="com.qcit.model.IndexNumberStat" alias="indexnumberstat"></typeAlias>
+		<typeAlias type="com.qcit.model.SimpleHandlerVo" alias="simpleHandlerVo"></typeAlias>
+	</typeAliases>
+
+</configuration>	

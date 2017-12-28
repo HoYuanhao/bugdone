@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qcit.dao.ItemsDao">
+
+<insert id="setParticipant" parameterType="map">
+insert into participant(pid,uid,joindate,isadmin)values(#{pid},#{uid},now(),#{isadmin})
+</insert>
+
+<select id="getItems" parameterType="int" resultType="itemspo">
+select * from project where id=#{id}
+</select>
+
+<!-- 查询主页项目情况(分页) -->
+<select id="getItemsListVoPage" parameterType="map" resultType="itemslistvo">
+SELECT  distinct part.pid as id,p.name as name,
+(select count(*) from user 
+left join participant as p on p.uid=user.id 
+left join project on project.id=p.pid 
+left join problem on project.id=problem.project and problem.state in(1,2,6) where user.id=#{id} and project.id=part.pid and problem.project=part.pid and problem.handler=#{id}) as problemnumber,
+(select count(*) from user left join participant as p on p.uid=user.id 
+left join project on project.id=p.pid 
+left join problem on project.id=problem.project and problem.state in(1,2,6) where user.id=#{id} and project.id=part.pid and problem.project=part.pid) as actionnumber,
+(select username from user where id=p.creater)as creater,p.creationtime as createtime,itemspic as pic
+from project as p,participant as part 
+WHERE p.id in(SELECT pid FROM participant as part where part.uid=#{id}) and ishidden=#{ishidden} and isexist=1 and part.pid=p.id limit #{start},#{end}
+</select>
+<!-- 获取全部 -->
+<select id="getItemsListVo" parameterType="map" resultType="itemslistvo">
+SELECT  distinct part.pid as id,p.name as name,
+(select count(*) from user 
+left join participant as p on p.uid=user.id 
+left join project on project.id=p.pid 
+left join problem on project.id=problem.project and problem.state in(1,2,6) where user.id=#{id} and project.id=part.pid and problem.project=part.pid and problem.handler=#{id}) as problemnumber,
+(select count(*) from user left join participant as p on p.uid=user.id 
+left join project on project.id=p.pid 
+left join problem on project.id=problem.project and problem.state in(1,2,6) where user.id=#{id} and project.id=part.pid and problem.project=part.pid) as actionnumber,
+(select username from user where id=p.creater)as creater,p.creationtime as createtime,itemspic as pic
+from project as p,participant as part 
+WHERE p.id in(SELECT pid FROM participant as part where part.uid=#{id}) and ishidden=#{ishidden} and isexist=1 and part.pid=p.id
+</select>
+
+<!-- 创建项目 -->
+<insert id="setItems" parameterType="itemspo" keyProperty="id" useGeneratedKeys="true">
+
+INSERT into project(name,description,creater,owner,creationtime<!--  ,itemspic-->)
+value(#{name},#{description},#{creater},#{owner},now()<!--  ,#{itemspic}-->)
+</insert>
+<!-- 获取项目创建日期 -->
+<select id="getItemsDate" parameterType="int" resultType="java.util.Date">
+select creationtime from project where id=#{id}
+</select>
+<!-- 让项目隐藏-->
+<update id="updateItemsHidden" parameterType="map">
+update from project set ishidden=#{hidden} where id=#{id}
+</update>
+<!-- 让项目消失 -->
+<update id="updateItemsExist" parameterType="map">
+update from project set isexist=#{exist} where id=#{id}
+</update>
+<!-- 得到项目图片路径 -->
+<select id="getProjectPicPathById" parameterType="int" resultType="string">
+select itemspic from project where id=#{id}
+</select>
+<!-- 统计项目情况 -->
+<select id="getProjectStatisticsById" parameterType="map" resultMap="projectVoResult">
+<if test="#{id}!=null">
+select
+(select count(*) from problem where project=#{id}) as sumproblem,
+(select count(*) from problem where project=#{id} and state=4) as resolved,
+(select count(*) from problem where project=#{id} and state=1) as unsolved,
+(select count(*) from problem where project=#{id} and state=2) as audit,
+(select count(*) from problem where project=#{id} and state=5) as closed,
+(select count(*) from problem where project=#{id} and state=3) as rejected,
+(select count(*) from problem where project=#{id} and state=6) as postponed,
+problem.id as id,type,headline,product.name as product,state,priority,user.username as handler,createtime,updatetime 
+from problem left join participant p on problem.project=p.pid
+left join product on product.id=problem.product 
+left join user on problem.handler=user.id where p.pid=#{id};
+</if>
+</select>
+
+<select id="getProblemByItemIdAndIsActiveProblem" parameterType="map" resultType="simpleProblemVo">
+select id,type,headline,(select name from product where id=#{id}) as product,state,priority,(select username from user where id=handler)as handlerName,createtime,updatetime from problem where project=#{id} and state in(1,2,6);
+</select>
+
+<select id="getProblemByItemIdAndIsMyProblem" parameterType="map" resultType="simpleProblemVo">
+select id,type,headline,(select name from product where id=#{id}) as product,state,priority,createtime,updatetime from problem where project=#{id} and handler=#{uid} and state in(1,2,6);
+</select>
+<select id="getProblemByItemIdAll" parameterType="map" resultType="simpleProblemVo">
+select id,type,headline,(select name from product where id=#{id}) as product,state,priority,(select username from user where id=handler)as handlerName,createtime,updatetime from problem where  project=#{id};
+</select>
+<update id="updateItems" parameterType="map">
+update project set name=#{name},description=#{description} where id=#{id}
+</update>
+<select id="getProblemToMeByItemsIdAndUserId" parameterType="map" resultType="simpleProblemVo">
+select id,type,headline,(select name from product where id=#{id}) as product,state,priority,(select username from user where id=handler)as handlerName,createtime,updatetime from problem where  project=#{id} and handler=#{uid};
+</select>
+<select id="getMyHandlerProblemByItemsIdAndUserId" parameterType="map" resultType="simpleProblemVo">
+select id,type,headline,(select name from product where id=#{id}) as product,state,priority,(select username from user where id=handler)as handlerName,createtime,updatetime from problem where  project=#{id} and uid=#{uid};
+</select>
+<resultMap type="projectVo" id="projectVoResult">
+<result column="sumproblem" property="sumproblem"/>
+<result column="resolved" property="resolved"/>
+<result column="unsolved" property="unsolved"/>
+<result column="audit" property="audit"/>
+<result column="closed" property="closed"/>
+<result column="rejected" property="rejected"/>
+<result column="postponed" property="postponed"/>
+<collection property="list" javaType="ArrayList" ofType="simpleProblemVo" >
+<id column="id" property="id"/>
+<result column="type" property="type"/>
+<result column="headline" property="headline"/>
+<result column="product" property="product"/>
+<result column="state" property="state"/>
+<result column="priority" property="priority"/>
+<result column="handler" property="handlerName"/>
+<result column="createtime" property="createtime" javaType="java.util.Date"/>
+<result column="updatetime" property="updatetime" javaType="java.util.Date"/>
+</collection>
+</resultMap>
+</mapper>

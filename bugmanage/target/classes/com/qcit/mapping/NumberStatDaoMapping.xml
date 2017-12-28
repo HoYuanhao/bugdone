@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qcit.dao.NumberStatDao">
+<select id="getIndexNumberStat" parameterType="int" resultType="indexnumberstat">
+SELECT (SELECT count(*) from project where creater=#{id}) as createProjectNumber,
+       (SELECT count(*) from project as p left join participant as part on part.pid=p.id where uid=#{id})  as joinProjectNumber,
+       (SELECT count(*) from problem where project in(SELECT part.pid from participant as part left join project as p on part.pid=p.id where creater=#{id})and state in(1,2,6)) as waitToSolveProblemNumber,
+       (SELECT count(*) from problem where project in(SELECT part.pid from participant as part left join project as p on part.pid=pid where creater=#{id}) and state in(4)) as solveProblemNumber,
+       (SELECT count(*) from problem where project in(SELECT part.pid from participant as part left join project as p on part.pid=pid where creater=#{id}) and problem.uid=9) as createProblemNumber
+       
+</select>
+</mapper>

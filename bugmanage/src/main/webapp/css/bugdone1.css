@@ -1,0 +1,183 @@
+.avatar1 {
+    width: 60px;
+    height: 60px;
+    left: 40px;
+    top: 12px;
+}
+
+    .avatar1 img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        text-align: center;
+    }
+
+span.changeBj {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    vertical-align: middle;
+    background: #808080;
+    opacity: 1;
+    left: 0px;
+    bottom: 0px;
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+}
+
+span.changeTxt {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    left: 2px;
+    bottom: 0px;
+    line-height: 60px;
+    opacity: 1;
+    color: white;
+}
+
+
+.project-logo .projectHeadImageGray {
+    text-align: center;
+    position: absolute;
+    width: 190px;
+    height: 85px;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    vertical-align: middle;
+    left: 0px;   
+    top: 0px;
+    display: block;
+    background-color: #808080;
+    filter: alpha(opacity=50);
+    -moz-opacity: 0.5;
+    opacity: 0.5;
+}
+
+.project-logo .projectHeadImageGray-text {
+    opacity: 1;
+    background: none;
+    padding-top: 40px;
+    font-size: 14px;
+    font-weight: normal;   
+}
+
+
+
+#userinfo {
+    margin-left: -100px;
+}
+
+.header .show-box .topline {
+    border-top: 1px solid #e2e2e2;
+    margin-top: 10px;
+}
+
+.foot-btn {
+    height: 40px;
+    line-height: 40px;
+    border-top: 1px solid #ddddeb;
+    padding: 10px 20px;
+}
+
+    .foot-btn span {
+        display: inline-block;
+    }
+
+    .foot-btn .button {
+        padding: 0px 30px;
+        cursor: pointer;
+        height: 38px;
+        float: left;
+        line-height: 38px;
+        font-size: 14px;
+        -webkit-transition: .3s;
+        transition: .3s;
+        border: 1px solid #0892e1;
+        color: #fff;
+        background: #0892e1;
+        text-align: center;
+        border-radius: 4px;
+        margin: 0px 10px;
+    }
+
+    .foot-btn .button2 {
+        color: #0892e1;
+        background: #fff;
+    }
+
+    .foot-btn .button3 {
+        color: #0892e1;
+        background: #f1d870;
+    }
+
+    .foot-btn .button:hover {
+        box-shadow: 0px 2px 10px #a9d9fd;
+    }
+
+.cursorpointer{ cursor:pointer;}
+
+/*¸´ÖÆ³ÉÔ±*/
+.userList {
+    border: 1px solid #ddddeb;
+    border-radius: 4px;
+    margin: 0px 30px 0px 30px;
+    padding: 10px 10px 10px 10px;
+    -webkit-transition: .3s;
+    transition: .3s;
+    overflow: hidden;
+}
+
+    .userList ul {
+        width: 95%;
+        padding: 0px 10px 0px 10px;
+    }
+
+    .userList li {
+        float: left;
+        border-radius: 4px;
+        margin: 4px 4px 0px 0px;
+        padding: 2px 5px 2px 5px;
+        width: 100%;
+        -webkit-transition: .3s;
+        transition: .3s;
+        overflow: hidden;
+        font-size: 15px;
+    }
+
+        .userList li img {
+            float: left;
+            width: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .userList li input {
+            float: right;
+        }
+
+
+.j-item-list .item img {
+    float: left;
+    width: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.tit1 {
+    width:200px !important;
+    left:-130px !important; 
+}
+.box1 input {
+    vertical-align:middle !important;
+}
+
+.from-style li.block-30{width:30%;}
+.from-style li.block-20{width:20%;}
+
+.box .small-tit > div{float:right; text-align:right; background:#fff; padding-left:20px; position:relative; z-index:9; cursor:pointer;}
